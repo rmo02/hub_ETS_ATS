@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETS2 Hub — Dashboard</title>
+  <meta name="description" content="Hub de informações em tempo real do Euro Truck Simulator 2" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- ══ TOP STATUS BAR ══════════════════════════════════════════════ -->
+  <div id="top-bar">
+    <div id="top-left">
+      <span class="logo-icon">🚛</span>
+      <div>
+        <div id="truck-name-top">ETS2 Hub</div>
+        <span id="license-plate" class="plate">ETS-2024</span>
+      </div>
+    </div>
+
+    <!-- Warning indicators row -->
+    <div id="warning-lights">
+      <div class="wlight" id="wl-engine" title="Motor">🔑</div>
+      <div class="wlight" id="wl-fuel" title="Combustível">⛽</div>
+      <div class="wlight" id="wl-adblue" title="AdBlue">💧</div>
+      <div class="wlight" id="wl-air" title="Pressão Ar">💨</div>
+      <div class="wlight" id="wl-oil" title="Pressão Óleo">🛢️</div>
+      <div class="wlight" id="wl-water" title="Temperatura">🌡️</div>
+      <div class="wlight" id="wl-battery" title="Bateria">🔋</div>
+      <div class="wlight" id="wl-brake" title="Freio Mão">🅿</div>
+      <div class="wlight wlight--blue" id="wl-cruise" title="Cruise Control">🛣️</div>
+      <div class="wlight wlight--blue" id="wl-highbeam" title="Farol Alto">🔦</div>
+      <div class="wlight wlight--amber" id="wl-blink-l" title="Pisca Esq.">◀</div>
+      <div class="wlight wlight--amber" id="wl-blink-r" title="Pisca Dir.">▶</div>
+      <div class="wlight wlight--amber" id="wl-hazard" title="Emergência">⚠️</div>
+      <div class="wlight wlight--blue" id="wl-wipers" title="Limpadores">🌧️</div>
+      <div class="wlight wlight--amber" id="wl-beacon" title="Giroflex">🚨</div>
+    </div>
+
+    <div id="top-right">
+      <div id="game-time-block">
+        <div id="game-time">00:00</div>
+        <div class="micro-label">Hora do jogo</div>
+      </div>
+      <div id="connection-badge" class="badge badge--demo">
+        <span id="badge-dot"></span>
+        <span id="badge-label">DEMO</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MAIN DASHBOARD ══════════════════════════════════════════════ -->
+  <div id="dashboard">
+
+    <!-- ── LEFT COLUMN: Route + Pedals ───────────────────────────── -->
+    <div id="col-left">
+
+      <!-- Route / Navigation -->
+      <div class="panel" id="panel-route">
+        <div class="panel-hdr">🗺️ Navegação</div>
+        <div class="route-cities">
+          <div class="route-city-block">
+            <div class="city-label">ORIGEM</div>
+            <div id="city-src" class="city-name">--</div>
+            <div id="comp-src" class="city-company">--</div>
+          </div>
+          <div class="route-dots">
+            <div class="dot active"></div>
+            <div id="route-progress-dot" class="dot-prog"></div>
+            <div class="dot"></div>
+          </div>
+          <div class="route-city-block rt">
+            <div class="city-label">DESTINO</div>
+            <div id="city-dst" class="city-name">--</div>
+            <div id="comp-dst" class="city-company">--</div>
+          </div>
+        </div>
+        <div class="nav-stats">
+          <div class="nav-stat">
+            <div class="nav-stat-val" id="route-dist">-- km</div>
+            <div class="nav-stat-lbl">Distância</div>
+          </div>
+          <div class="nav-stat-sep"></div>
+          <div class="nav-stat">
+            <div class="nav-stat-val" id="route-time">--</div>
+            <div class="nav-stat-lbl">Tempo est.</div>
+          </div>
+          <div class="nav-stat-sep"></div>
+          <div class="nav-stat">
+            <div class="nav-stat-val" id="delivery-window">--:--</div>
+            <div class="nav-stat-lbl">Prazo</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pedals -->
+      <div class="panel" id="panel-pedals">
+        <div class="panel-hdr">🎮 Pedais</div>
+        <div class="pedal-row">
+          <span class="pedal-lbl">Acel.</span>
+          <div class="pedal-track">
+            <div id="p-throttle" class="pedal-fill p-green"></div>
+          </div>
+          <span id="pv-throttle" class="pedal-pct">0%</span>
+        </div>
+        <div class="pedal-row">
+          <span class="pedal-lbl">Freio</span>
+          <div class="pedal-track">
+            <div id="p-brake" class="pedal-fill p-red"></div>
+          </div>
+          <span id="pv-brake" class="pedal-pct">0%</span>
+        </div>
+        <div class="pedal-row">
+          <span class="pedal-lbl">Embr.</span>
+          <div class="pedal-track">
+            <div id="p-clutch" class="pedal-fill p-amber"></div>
+          </div>
+          <span id="pv-clutch" class="pedal-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- Temps & fluids -->
+      <div class="panel" id="panel-temps">
+        <div class="panel-hdr">🌡️ Fluidos</div>
+        <div class="temp-grid">
+          <div class="temp-cell">
+            <div class="temp-val" id="water-temp">--</div>
+            <div class="temp-lbl">Água</div>
+          </div>
+          <div class="temp-cell">
+            <div class="temp-val" id="oil-temp">--</div>
+            <div class="temp-lbl">Óleo</div>
+          </div>
+          <div class="temp-cell">
+            <div class="temp-val" id="oil-pressure">--</div>
+            <div class="temp-lbl">P. Óleo</div>
+          </div>
+          <div class="temp-cell">
+            <div class="temp-val" id="brake-temp">--</div>
+            <div class="temp-lbl">Freios</div>
+          </div>
+          <div class="temp-cell">
+            <div class="temp-val" id="air-pressure">--</div>
+            <div class="temp-lbl">Ar</div>
+          </div>
+          <div class="temp-cell">
+            <div class="temp-val" id="battery-voltage">--</div>
+            <div class="temp-lbl">Bateria</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── CENTER CLUSTER ─────────────────────────────────────────── -->
+    <div id="cluster">
+      <div id="cluster-bg"></div>
+
+      <!-- Gauges row -->
+      <div id="gauges-row">
+
+        <!-- RPM gauge -->
+        <div class="gauge-wrap" id="wrap-rpm">
+          <canvas id="rpm-gauge" width="220" height="220"></canvas>
+          <div class="gauge-center-label">
+            <div id="rpm-value" class="gauge-num">0</div>
+            <div class="gauge-unit">RPM</div>
+          </div>
+        </div>
+
+        <!-- SPEED gauge (main / biggest) -->
+        <div class="gauge-wrap" id="wrap-speed">
+          <canvas id="speedometer" width="300" height="300"></canvas>
+          <div class="gauge-center-label">
+            <div id="speed-value" class="gauge-num speed-num">0</div>
+            <div class="gauge-unit">KM/H</div>
+            <div id="speed-limit-badge" class="spd-limit hidden"><span id="speed-limit-val">90</span></div>
+          </div>
+        </div>
+
+        <!-- FUEL gauge -->
+        <div class="gauge-wrap" id="wrap-fuel">
+          <canvas id="fuel-gauge" width="220" height="220"></canvas>
+          <div class="gauge-center-label">
+            <div id="fuel-pct" class="gauge-num fuel-num">0%</div>
+            <div class="gauge-unit">DIESEL</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Digital center strip -->
+      <div id="center-strip">
+        <!-- Gear -->
+        <div class="digi-block">
+          <div class="digi-lbl">MARCHA</div>
+          <div id="gear-value" class="digi-val">N</div>
+        </div>
+
+        <!-- Engine / electric status -->
+        <div class="digi-block">
+          <div class="digi-lbl">MOTOR</div>
+          <div id="engine-status" class="digi-val digi-small">OFF</div>
+        </div>
+
+        <!-- Cruise -->
+        <div class="digi-block">
+          <div class="digi-lbl">CRUISE</div>
+          <div id="cruise-value" class="digi-val digi-small">OFF</div>
+        </div>
+
+        <!-- Odometer -->
+        <div class="digi-block digi-wide">
+          <div class="digi-lbl">ODÔMETRO</div>
+          <div id="odometer" class="digi-val digi-odo">------</div>
+        </div>
+
+        <!-- Rest -->
+        <div class="digi-block">
+          <div class="digi-lbl">DESCANSO</div>
+          <div id="rest-time" class="digi-val digi-small">--</div>
+        </div>
+      </div>
+
+      <!-- AdBlue bar (under gauges) -->
+      <div id="adblue-strip">
+        <span class="adblue-lbl">AdBlue</span>
+        <div class="adblue-track">
+          <div id="adblue-bar" class="adblue-fill"></div>
+        </div>
+        <span id="adblue-pct" class="adblue-pct">0%</span>
+        <span id="adblue-liters" class="adblue-lit">-- L</span>
+      </div>
+
+      <!-- Paused overlay -->
+      <div id="paused-overlay" class="hidden">⏸ JOGO PAUSADO</div>
+    </div>
+
+    <!-- ── RIGHT COLUMN: Cargo + Trailer + Job ───────────────────── -->
+    <div id="col-right">
+
+      <!-- Cargo -->
+      <div class="panel" id="panel-cargo">
+        <div class="panel-hdr">📦 Carga</div>
+        <div id="cargo-name" class="cargo-title">-- Sem carga --</div>
+        <div class="cargo-meta">
+          <span id="cargo-mass">--</span> &nbsp;·&nbsp;
+          <span id="cargo-planned">--</span>
+        </div>
+        <div class="dmg-row">
+          <span class="micro-label">Dano</span>
+          <div class="dmg-bg">
+            <div id="damage-bar"></div>
+          </div>
+          <span id="damage-pct">0%</span>
+        </div>
+      </div>
+
+      <!-- Job Stats -->
+      <div class="panel" id="panel-job">
+        <div class="panel-hdr">🏆 Job</div>
+        <div id="job-no-job" class="no-job">Sem job ativo</div>
+        <div class="job-row"><span class="micro-label">Remuneração</span><span id="job-income" class="job-val accent">€
+            --</span></div>
+        <div class="job-row"><span class="micro-label">Penalidade</span> <span id="job-penalty"
+            class="job-val warn-text">€ --</span></div>
+        <div class="job-row"><span class="micro-label">XP estimado</span> <span id="job-xp"
+            class="job-val purple-text">-- XP</span></div>
+        <div class="job-row"><span class="micro-label">Câmbio</span> <span id="shifter-type" class="job-val">--</span>
+        </div>
+      </div>
+
+      <!-- Trailer -->
+      <div class="panel" id="panel-trailer">
+        <div class="panel-hdr">🚌 Trailer</div>
+        <div id="trailer-disconnected" class="no-job">Sem trailer</div>
+        <div id="trailer-info" class="hidden">
+          <div id="trailer-name-big" class="cargo-title">--</div>
+          <div class="cargo-meta"><span id="trailer-brand">--</span> · <span id="trailer-plate"
+              class="plate-xs">--</span></div>
+          <div class="wear-compact">
+            <div class="wc-row"><span>Chassi</span>
+              <div class="wc-bg">
+                <div class="wc-bar" id="tw-chassis"></div>
+              </div><span id="twv-chassis">0%</span>
+            </div>
+            <div class="wc-row"><span>Rodas</span>
+              <div class="wc-bg">
+                <div class="wc-bar" id="tw-wheels"></div>
+              </div> <span id="twv-wheels">0%</span>
+            </div>
+            <div class="wc-row"><span>Carroç.</span>
+              <div class="wc-bg">
+                <div class="wc-bar" id="tw-body"></div>
+              </div> <span id="twv-body">0%</span>
+            </div>
+            <div class="wc-row"><span>Carga</span>
+              <div class="wc-bg">
+                <div class="wc-bar" id="tw-cargo"></div>
+              </div> <span id="twv-cargo">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Truck Wear -->
+      <div class="panel" id="panel-wear">
+        <div class="panel-hdr">⚙️ Desgaste</div>
+        <div class="wear-compact">
+          <div class="wc-row"><span>Motor</span>
+            <div class="wc-bg">
+              <div class="wc-bar" id="w-engine"></div>
+            </div> <span id="wv-engine">0%</span>
+          </div>
+          <div class="wc-row"><span>Câmbio</span>
+            <div class="wc-bg">
+              <div class="wc-bar" id="w-trans"></div>
+            </div> <span id="wv-trans">0%</span>
+          </div>
+          <div class="wc-row"><span>Cabine</span>
+            <div class="wc-bg">
+              <div class="wc-bar" id="w-cabin"></div>
+            </div> <span id="wv-cabin">0%</span>
+          </div>
+          <div class="wc-row"><span>Chassi</span>
+            <div class="wc-bg">
+              <div class="wc-bar" id="w-chassis"></div>
+            </div> <span id="wv-chassis">0%</span>
+          </div>
+          <div class="wc-row"><span>Rodas</span>
+            <div class="wc-bg">
+              <div class="wc-bar" id="w-wheels"></div>
+            </div> <span id="wv-wheels">0%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer id="footer">
+    <span id="footer-paused" class="hidden">⏸ Jogo pausado</span>
+    <span>ETS2 Hub · trucksim-telemetry</span>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
