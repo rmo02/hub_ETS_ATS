@@ -35,7 +35,7 @@ Um hub de informações em **tempo real** para o **Euro Truck Simulator 2** e **
 ### 1. Clone o repositório
 
 ```bash
-git clone https://github.com/SEU_USUARIO/hub_eurotruck.git
+git clone https://github.com/rmo02/hub_eurotruck.git
 cd hub_eurotruck
 ```
 
